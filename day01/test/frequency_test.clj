@@ -1,6 +1,6 @@
-(ns day01.frequency_test
+(ns frequency_test
     (:require [clojure.test :refer :all]
-              [day01.frequency :refer :all]))
+              [frequency :refer :all]))
 
 
 (deftest test-add-frequency

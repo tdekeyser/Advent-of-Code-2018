@@ -7,7 +7,7 @@
   :source-paths ["src"]
   :test-paths ["test"]
 
-  :main ^:skip-aot day01.frequency
+  :main ^:skip-aot frequency
 
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})

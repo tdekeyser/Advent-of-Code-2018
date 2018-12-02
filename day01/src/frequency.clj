@@ -1,4 +1,4 @@
-(ns day01.frequency
+(ns frequency
     (:require
       [clojure.string :as string]
       [clojure.java.io :as io]))
@@ -12,7 +12,7 @@
 
 
 (def input-as-nums
-  (with-open [r (io/reader "input/day01_input.txt")]
+  (with-open [r (io/reader "input.txt")]
     (map #(str->num %)
          (doall (line-seq r)))))
 
