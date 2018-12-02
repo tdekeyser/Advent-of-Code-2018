@@ -44,7 +44,7 @@
         frequency
         (recur
           (conj freqs frequency)
-          (return-if-not-empty (drop 1 changes) change-list))))))
+          (return-if-not-empty (rest changes) change-list))))))
 
 
 (defn -main []
