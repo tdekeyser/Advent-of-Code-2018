@@ -29,7 +29,7 @@
   (loop [poly  polymer]
     (let [reaction (react-once poly)]
       (if (= (count poly) (count reaction))
-        (do (println (count reaction)) (flush) reaction)
+        reaction
         (recur reaction)))))
 
 ;;;;;;;;;;;;;;
