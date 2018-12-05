@@ -1,7 +1,5 @@
 .idea/
 target/
 
-input.txt
-
 .lein-failures
 .lein-repl-history
