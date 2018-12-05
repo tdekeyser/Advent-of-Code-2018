@@ -33,6 +33,7 @@
 ;;;;;;;;;;;;;;
 
 (defn update-log
+  "Digusting way to update a vector of maps. To be refactored..."
   [log guardId asleep wakeUp]
   (let [newLog (first (filter #(= guardId (:id %)) log))]
     (if (empty? newLog)
@@ -70,6 +71,25 @@
         (first $)
         (vector (:id $) (max-sleepminute (:minutes $)))))
 
+;;;;;;;;;;;;;;
+;; Puzzle 2 ;;
+;;;;;;;;;;;;;;
+
+(defn most-lazy-guard-on-minute
+  [data]
+  (as-> (count-sleeptime data) $
+        (sort-by
+          #(->> (:minutes %)
+            frequencies
+            (sort-by val)
+            reverse
+            first
+            last) $)
+        (reverse $)
+        (first $)
+        (vector (:id $) (max-sleepminute (:minutes $)))))
+
 
 (defn -main []
-  (println "Puzzle 1: Slept most [guardID minute]" (most-lazy-guard puzzle-input)))
+  (println "Puzzle 1: Slept most [guardId minute]" (most-lazy-guard puzzle-input))
+  (println "Puzzle 2: Slept most at minute [guardId minute]" (most-lazy-guard-on-minute puzzle-input)))

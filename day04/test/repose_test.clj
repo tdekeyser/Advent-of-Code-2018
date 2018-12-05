@@ -57,8 +57,33 @@
                                      "151801130015 wakes up"
                                      "151801132356 Guard #751 begins shift"
                                      "151801140054 falls asleep"
-                                     "151801140057 wakes up"
+                                     "151801140055 wakes up"
                                      "151801122357 Guard #3209 begins shift"
                                      "151801130014 falls asleep"
-                                     "151801130016 wakes up"))
+                                     "151801130016 wakes up"
+                                     "151901132356 Guard #751 begins shift"
+                                     "151901140054 falls asleep"
+                                     "151901140055 wakes up"
+                                     "152001132356 Guard #751 begins shift"
+                                     "152001140054 falls asleep"
+                                     "152001140055 wakes up"))
                   ["3209" 14]))))
+
+(deftest test-most-lazy-guard-on-minute
+  (testing "Get lazy guard id and most slept minutes"
+           (is (= (most-lazy-guard-on-minute '("151801122357 Guard #3209 begins shift"
+                                               "151801130013 falls asleep"
+                                               "151801130015 wakes up"
+                                               "151801132356 Guard #751 begins shift"
+                                               "151801140054 falls asleep"
+                                               "151801140055 wakes up"
+                                               "151801122357 Guard #3209 begins shift"
+                                               "151801130014 falls asleep"
+                                               "151801130016 wakes up"
+                                               "151901132356 Guard #751 begins shift"
+                                               "151901140054 falls asleep"
+                                               "151901140055 wakes up"
+                                               "152001132356 Guard #751 begins shift"
+                                               "152001140054 falls asleep"
+                                               "152001140055 wakes up"))
+                  ["751" 54]))))
