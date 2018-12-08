@@ -12,14 +12,14 @@
 
 (defn count-metadata
   [memory]
-  (loop [mem       (drop 2 memory)
+  (loop [metadata  0
          children  (first memory)
-         read-meta (second memory)
-         metadata  0]
-    (cond (= read-meta 0) [metadata mem]
-          (> children 0)  (let [[child-metadata remain] (count-metadata mem)]
-                            (recur remain (dec children) read-meta (+ metadata child-metadata)))
-          :else           (recur (drop read-meta mem) children 0 (+ metadata (reduce + (take read-meta mem)))))))
+         metacount (second memory)
+         mem       (drop 2 memory)]
+    (cond (= children 0)  [(+ metadata (reduce + (take metacount mem)))
+                           (drop metacount mem)]
+          :else           (let [[child-metadata remain] (count-metadata mem)]
+                            (recur (+ metadata child-metadata) (dec children) metacount remain)))))
 
 ;;;;;;;;;;;;;;
 ;; Puzzle 2 ;;
@@ -30,13 +30,13 @@
 (defn count-value
   [memory]
   (let [children    (first memory)
-        read-meta   (second memory)]
+        metacount   (second memory)]
     (loop [mem      (drop 2 memory)
            child    0
            values   []]
       (cond (= children 0)     (count-metadata memory)
-            (= children child) [(->> (take read-meta mem) (map dec) (map #(nth-safe values %)) (reduce +))
-                                (drop read-meta mem)]
+            (= children child) [(->> (take metacount mem) (map dec) (map #(nth-safe values %)) (reduce +))
+                                (drop metacount mem)]
             :else              (let [[value remain] (count-value mem)]
                                  (recur remain (inc child) (conj values value)))))))
 
