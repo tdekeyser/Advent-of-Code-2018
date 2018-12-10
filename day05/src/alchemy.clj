@@ -32,19 +32,39 @@
         reaction
         (recur reaction)))))
 
+;;;;;;;;;;;;;;;;
+;; Puzzle 1++ ;;
+;;;;;;;;;;;;;;;;
+
+(def alphabet "abcdefghijklmnopqrstuvwxyz")
+
+(defn react**
+  [polymer]
+  (loop [reaction polymer
+         letters  alphabet]
+    (let [letter      (first letters)
+          newReaction (as-> reaction $
+                            (do (println (str letter (cljstr/upper-case letter))) (flush) (cljstr/replace $ (str letter (cljstr/upper-case letter)) ""))
+                            (cljstr/replace $ (str (cljstr/upper-case letter) letter) ""))]
+      (if (= (count newReaction) (count reaction))
+        reaction
+        (recur
+          newReaction
+          (if (empty? letters) (rest letters) alphabet))))))
+
 ;;;;;;;;;;;;;;
 ;; Puzzle 2 ;;
 ;;;;;;;;;;;;;;
 
 (defn react*
   [polymer]
-  (->> "abcdefghijklmnopqrstuvwxyz"
+  (->> alphabet
        (map
-         #(as-> polymer $
-           (cljstr/replace $ (str %) "")
-           (cljstr/replace $ (cljstr/upper-case (str %)) "")
-           (react $)
-           (count $)))
+        #(as-> polymer $
+          (cljstr/replace $ (str %) "")
+          (cljstr/replace $ (cljstr/upper-case (str %)) "")
+          (react** $)
+          (count $)))
        (apply min)))
 
 
@@ -53,6 +73,10 @@
     (->> r line-seq first doall)))
 
 
+(def react-puzzle
+  (react** puzzle-input))
+
+
 (defn -main []
-  (println "Puzzle 1:" (count (react puzzle-input)))
-  (println "Puzzle 2:" (react* puzzle-input)))
+  (println "Puzzle 1:" (count react-puzzle))
+  (println "Puzzle 2:" (react* react-puzzle)))

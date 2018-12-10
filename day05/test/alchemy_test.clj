@@ -21,10 +21,10 @@
 
 (deftest test-react
   (testing "Reaction against polymer - perform and count"
-           (is (= (react "aA") ""))
-           (is (= (react "abBA") ""))
-           (is (= (react "abAB") "abAB"))
-           (is (= (react "aabAAB") "aabAAB"))))
+           (is (= (react** "aA") ""))
+           (is (= (react** "abBA") ""))
+           (is (= (react** "abAB") "abAB"))
+           (is (= (react** "aabAAB") "aabAAB"))))
 
 (deftest test-react*
   (testing "Remove unit from polymer"
