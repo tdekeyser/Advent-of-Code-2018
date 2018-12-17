@@ -9,19 +9,32 @@
                (->> r line-seq (map #(string/split % #", ")) (map #(map (fn [s] (Integer. s)) %)) doall))]
     (zipmap (range (count data)) data)))
 
-;;;;;;;;;;;;;;
-;; Puzzle 1 ;;
-;;;;;;;;;;;;;;
-
-(defn manhattan-distance
-  [[^long x1 ^long y1] [^long x2 ^long y2]]
-  (+ (Math/abs (- x1 x2)) (Math/abs (- y1 y2))))
-
 
 (defn update-all
   [f dataMap]
   (reduce-kv (fn [m k v] (assoc m k (f v))) {} dataMap))
 
+
+(defn ->border
+  [coords]
+  (let [make-border (fn [pos oper] (->> coords (update-all pos) (apply oper val) val))]
+    {:x [(make-border first min-key) (make-border first max-key)]
+     :y [(make-border last min-key) (make-border last max-key)]}))
+
+
+(defn ->area
+  [border]
+  (let [full-range (fn [c] (range (first c) (inc (last c))))]
+    (comb/cartesian-product (full-range (:x border)) (full-range (:y border)))))
+
+
+(defn manhattan-distance
+  [[^long x1 ^long y1] [^long x2 ^long y2]]
+  (+ (Math/abs (- x1 x2)) (Math/abs (- y1 y2))))
+
+;;;;;;;;;;;;;;
+;; Puzzle 1 ;;
+;;;;;;;;;;;;;;
 
 (defn closest-by-index
   "Return key of closest coord; returns nil if multiple are closest."
@@ -32,13 +45,6 @@
     (if (= 1 (count min-keys)) (key min-dist) nil)))
 
 
-(defn define-border
-  [coords]
-  (let [make-border (fn [pos oper] (->> coords (update-all pos) (apply oper val) val))]
-    {:x [(make-border first min-key) (make-border first max-key)]
-     :y [(make-border last min-key) (make-border last max-key)]}))
-
-
 (defn on-border?
   [border coord]
   (let [on? (fn [b c] (map #(= c %) (b border)))]
@@ -47,9 +53,8 @@
 
 (defn chronal-area
   [coords]
-  (let [border          (define-border coords)
-        full-range      (fn [c] (range (first c) (inc (last c))))
-        area            (comb/cartesian-product (full-range (:x border)) (full-range (:y border)))
+  (let [border          (->border coords)
+        area            (->area border)
         area-closest    (map #(closest-by-index coords %) area)
         keys-on-border  (->> (map #(on-border? border %) area)
                              (mapv vector area-closest)
@@ -60,8 +65,20 @@
           (apply dissoc $ keys-on-border)
           (apply max-key val $))))
 
-(def test-area
-  {:1 [1 1] :2 [1 6] :3 [8 3] :4 [3 4] :5 [5 5] :6 [8 9] :7 [2 2]})
+;;;;;;;;;;;;;;
+;; Puzzle 2 ;;
+;;;;;;;;;;;;;;
+
+(defn safe?
+  [threshold coords point]
+  (->> (vals coords) (map #(manhattan-distance point %)) (reduce +) (> threshold)))
+
+
+(defn chronal-safe
+  [threshold coords]
+  (->> coords ->border ->area (filter #(safe? threshold coords %)) count))
+
 
 (defn -main []
-  (println "Puzzle 1" (chronal-area puzzle-input)))
+  (println "Puzzle 1" (chronal-area puzzle-input)) ;; 3293
+  (println "Puzzle 2" (chronal-safe 10000 puzzle-input))) ;; 45176
