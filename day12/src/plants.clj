@@ -46,7 +46,7 @@
         (map-indexed (fn [i _] (subs* (:content state) (- i 2) (+ i 3))))
         (map #(apply-rules rules %))
         (wrap-into "..")
-        (->State (- (:start state) 2)))
+        (->State (:start state)))
    rules])
 
 
@@ -58,8 +58,7 @@
 (defn count-state
   [^State state]
   (let [{:keys [start content]} state]
-    (->> (range start (inc (count content)))
-         (mapv vector (string/split content #""))
+    (->> (mapv vector (string/split content #"") (range start (inc (count content))))
          (filter #(= "#" (first %)))
          (map last)
          (reduce +))))
@@ -69,6 +68,6 @@
   (let [puzzle-input  (get-puzzle-input "input.txt")
         initial-state (get-initial-state puzzle-input)
         rules         (get-rules puzzle-input)]
-    (println "Puzzle 1" (count-state (evolve-n 20 [initial-state rules])))))
 
-;; 1816
+    (println "Puzzle 1" (count-state (evolve-n 20 [initial-state rules]))) ;; 1816
+    (println "Puzzle 2" (+ (count-state (evolve-n 160 [initial-state rules])) (* 8 (- 50000000000 160)))))) ;; 399999999957
