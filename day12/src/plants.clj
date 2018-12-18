@@ -34,7 +34,7 @@
 
 
 (defn apply-rules
-  "Find and apply rule that matches input s. If none matches, returns middle char ((count s) = 5)."
+  "Find and apply rule that matches input s. If none matches, returns dot (.)"
   [rules ^String s]
   (let [rule (first (filter #(= s (:from %)) rules))]
     (if (nil? rule) "." (:to rule))))
