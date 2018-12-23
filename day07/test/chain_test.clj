@@ -5,5 +5,5 @@
 
 (deftest test-chain
   (testing "Chain steps together"
-           (is (= (chain (puzzle-input "test-input.txt")) "CABDFE"))))
+           (is (= (find-chain puzzle-input) "EPWCFXKISTZVJHDGNABLQYMORU"))))
 
