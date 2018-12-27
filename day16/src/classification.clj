@@ -2,12 +2,6 @@
     (require [clojure.string :as string]
              [aoc_utils :as u]))
 
-(def puzzle-input
-  (->> (u/readlines "input1.txt")
-       (map #(u/parse #"^Before: \[([\d ]*)\]\|([\d ]*)\|After:  \[([\d ]*)\]" %))
-       (map #(map (fn [capture] (into [] (u/->int (string/split capture #" ")))) %))
-       (map #(zipmap [:before :instr :after] %))))
-
 
 (defn greater?
   "Returns 1 if a > b, else 0"
@@ -117,6 +111,13 @@
   (let [apply-ops   (fn [ofn code] (ofn (:before code) (:instr code)))
         ops-behaves (fn [code] (->> operations (map #(equal? (apply-ops % code) (:after code)))))]
     (map #(reduce + (ops-behaves %)) codes)))
+
+
+(def puzzle-input
+  (->> (u/readlines "input1.txt")
+       (map #(u/parse #"^Before: \[([\d ]*)\]\|([\d ]*)\|After:  \[([\d ]*)\]" %))
+       (map #(map (fn [capture] (into [] (u/->int (string/split capture #" ")))) %))
+       (map #(zipmap [:before :instr :after] %))))
 
 
 (defn -main []
