@@ -57,7 +57,7 @@
 (defn bori
   "bitwise OR immediate"
   [r i]
-  (exec bit-or r i :brn identity))
+  (exec bit-or r i :mapb identity))
 
 (defn setr
   "set register"
