@@ -112,6 +112,7 @@
 (def operations [addr addi mulr muli banr bani borr bori setr seti gtir gtri gtrr eqir eqri eqrr])
 
 (defn count-behave
+  "Count the number of similar operation results for each code."
   [codes]
   (let [apply-ops   (fn [ofn code] (ofn (:before code) (:instr code)))
         ops-behaves (fn [code] (->> operations (map #(equal? (apply-ops % code) (:after code)))))]
