@@ -2,12 +2,13 @@
     (require [aoc_utils :as u]
              [operations :refer :all]))
 
-(def puzzle-init
-  (->> (u/readlines "input.txt") first (u/parse #"#ip (\d)") (u/->int) first))
+(def input (u/readlines "input.txt"))
 
-(def puzzle-input
-  (->> (u/readlines "input.txt")
-       rest
+(def instr-pointer-position
+  (->> (first input) (u/parse #"#ip (\d)") (u/->int) first))
+
+(def operations
+  (->> (rest input)
        (map #(u/parse #"([a-z]+) (\d+) (\d+) (\d+)" %))
        (map #(vector (first %) (concat [0] (into [] (map u/->int (rest %))))))
        (into [])))
@@ -41,4 +42,6 @@
 
 
 (defn -main []
-  (println "Puzzle 1"))
+  (println "Puzzle 1" (time (execute-program operations instr-pointer-position))))
+
+;; Puzzle 1 [1620 1 986 987 257 987]
