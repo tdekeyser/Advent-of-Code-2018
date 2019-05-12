@@ -3,7 +3,12 @@
   :license
   {:name "Eclipse Public License"
    :url  "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.8.0"]
+
+  ;; Overrides older version of rrb-vector that doesn't work on JDK 11.
+  :managed-dependencies [[org.clojure/core.rrb-vector "0.0.13"]]
+  :plugins [[org.clojure/core.rrb-vector "0.0.13"]]
+
+  :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/core.logic "0.8.11"]]
 
   :source-paths ["src" "../aoc_utils" "../day16/src"]

@@ -11,6 +11,7 @@
 
 
 (defn update-all
+  "Update all values of dataMap according to f"
   [f dataMap]
   (reduce-kv (fn [m k v] (assoc m k (f v))) {} dataMap))
 

@@ -1,6 +1,6 @@
 (ns flow
-    (require [aoc_utils :as u]
-             [operations :refer :all]))
+    (:require [aoc_utils :as u]
+              [operations :refer :all]))
 
 (def input (u/readlines "input.txt"))
 
@@ -34,11 +34,14 @@
 (defn execute-program
   "Execute operations with instruction pointer position p"
   [operations p]
-  (loop [register [0 0 0 0 0 0]]
+  (loop [register [1 0 0 0 0 0]
+         step     0]
     (let [ip      (get register p)]
       (if (or (< (count operations) ip))
         register
-        (recur (update-ip p (call (get operations ip) register)))))))
+        (do
+          (if (= 0 (mod step 1000000)) (println register))
+          (recur (update-ip p (call (get operations ip) register)) (inc step)))))))
 
 
 (defn -main []

@@ -3,3 +3,9 @@ target/
 
 .lein-failures
 .lein-repl-history
+
+*.class
+
+.nrepl-history
+
+go.sum

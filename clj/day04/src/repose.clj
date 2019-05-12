@@ -78,13 +78,7 @@
 (defn most-lazy-guard-on-minute
   [data]
   (as-> (count-sleeptime data) $
-        (sort-by
-          #(->> (:minutes %)
-            frequencies
-            (sort-by val)
-            reverse
-            first
-            last) $)
+        (sort-by max-sleepminute $)
         (reverse $)
         (first $)
         (vector (:id $) (max-sleepminute (:minutes $)))))

@@ -1,6 +1,7 @@
 (ns teleport
     (require [clojure.java.io :as io]
-             [clojure.string :as string]))
+             [clojure.string :as string]
+             [clojure.math.combinatorics :as comb]))
 
 (defn parse [regex entry]
   (rest (re-find regex entry)))
@@ -33,11 +34,14 @@
   (filter #(in-range? range position %) targets))
 
 (defn count-in-range
-  "Get num of bots in range of strongest bot"
+  "Get num of bots in range of target"
   [target nanobots]
-  (let [target-position    (get nanobots (key target))]
+  (let [target-position (get nanobots (key target))]
     (count (positions-in-range (val target) target-position (vals nanobots)))))
 
+;;;;;;;;;;;;;;
+;; Puzzle 2 ;;
+;;;;;;;;;;;;;;
 
 
 (defn -main []

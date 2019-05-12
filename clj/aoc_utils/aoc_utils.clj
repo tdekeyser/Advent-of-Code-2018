@@ -1,5 +1,5 @@
 (ns aoc_utils
-    (require [clojure.java.io :as io]))
+    (:require [clojure.java.io :as io]))
 
 
 (defn readlines
