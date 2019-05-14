@@ -31,7 +31,7 @@ class ChronalCharge {
             }
         }
 
-        System.out.println(largestX + "," + largestY + "," + largestS);
+        System.out.println("Part two: " + largestX + "," + largestY + "," + largestS);
     }
 
     private static int sumSquare(int x, int y, int size, int[][] cells) {
